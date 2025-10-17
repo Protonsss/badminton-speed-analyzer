@@ -1,0 +1,69 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+*.egg
+
+# PyTorch models
+*.pt
+*.pth
+*.onnx
+
+# Video files (dont push large videos)
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+
+# Temporary files
+*.tmp
+*.log
+/backend/logs/
+/backend/temp/
+
+# Environment
+.env
+*.env
+!env.example
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# Node/SCSS
+node_modules/
+scss/.sass-cache/
+*.css.map
+
+# Test coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# Uploads/Results (dont push user data)
+/backend/uploads/
+/backend/results/
+/tmp/
+
+# Docker
+*.log
+
+# Jupyter
+.ipynb_checkpoints

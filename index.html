@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Badminton Smash Speed Analyzer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <div class="brand">
+          <img src="assets/logo.svg" alt="Logo" class="logo"/>
+          <h1>Smash Speed Analyzer</h1>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <div class="hero">
+          <h2 class="hero-title">Measure Your Smash Speed</h2>
+          <p class="hero-subtitle">Upload a badminton video, calibrate the court, and get accurate speed measurements using computer vision.</p>
+        </div>
+
+        <div class="main-grid">
+          <section class="card">
+            <h2>1. Upload Video</h2>
+            <div class="upload-row">
+              <label class="btn btn-primary" for="fileInput">Choose Video</label>
+              <input id="fileInput" type="file" accept="video/*" hidden>
+              <button id="demoBtn" class="btn btn-secondary">Load Demo</button>
+            </div>
+            <video id="video" controls playsinline></video>
+            <p class="tips">💡 For best results: 120-240 fps, tripod-mounted, full court view</p>
+          </section>
+
+          <section class="card">
+            <h2>2. Calibrate Court</h2>
+            <p>Click the four outer corners of the court to set the real-world scale.</p>
+            <div class="calibration-controls">
+              <button id="startCalib" class="btn btn-primary">Start Calibration</button>
+              <button id="resetCalib" class="btn btn-secondary">Reset</button>
+              <label>
+                Court type:
+                <select id="courtType">
+                  <option value="singles">Singles (13.40m × 5.18m)</option>
+                  <option value="doubles">Doubles (13.40m × 6.10m)</option>
+                </select>
+              </label>
+            </div>
+            <canvas id="canvas" width="960" height="540"></canvas>
+          </section>
+
+          <section class="card">
+            <h2>3. Analyze Speed</h2>
+            <div class="analyze-controls">
+              <button id="analyzeBtn" class="btn btn-primary">Analyze Speed</button>
+              <label>
+                Smoothing:
+                <input id="smoothWin" type="number" min="1" max="21" step="2" value="5">
+              </label>
+              <label>
+                Min size (px):
+                <input id="minSize" type="number" min="2" max="50" value="6">
+              </label>
+              <label>
+                Max size (px):
+                <input id="maxSize" type="number" min="10" max="120" value="40">
+              </label>
+            </div>
+
+            <div class="analyze-controls">
+              <label><input id="manualMode" type="checkbox"> Manual marking</label>
+              <button id="prevFrame" class="btn btn-secondary">← Prev</button>
+              <button id="nextFrame" class="btn btn-secondary">Next →</button>
+              <button id="addMark" class="btn btn-secondary">Add Mark</button>
+              <button id="finishManual" class="btn btn-secondary">Finish Manual</button>
+            </div>
+
+            <div class="analyze-controls">
+              <label><input id="useYolo" type="checkbox"> Use YOLO re-lock</label>
+              <label>
+                Model:
+                <input id="yoloUrl" type="text" placeholder="model.onnx">
+              </label>
+              <button id="loadYolo" class="btn btn-secondary">Load Model</button>
+            </div>
+
+            <div class="results">
+              <div class="stat">
+                <span class="label">Peak:</span>
+                <span id="peakSpeed">—</span>
+              </div>
+              <div class="stat">
+                <span class="label">Average:</span>
+                <span id="avgSpeed">—</span>
+              </div>
+              <div class="stat">
+                <span class="label">Initial (fit):</span>
+                <span id="initSpeed">—</span>
+              </div>
+              <div class="stat">
+                <span class="label">Frame rate:</span>
+                <span id="fps">—</span>
+              </div>
+            </div>
+
+            <canvas id="chart" width="960" height="240"></canvas>
+
+            <div class="export-row">
+              <button id="exportCSV" class="btn btn-secondary">Export CSV</button>
+              <button id="exportPNG" class="btn btn-secondary">Export Overlay</button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        Built for accurate shuttle speed estimation. For best results, use high FPS and calibrate carefully.
+      </div>
+    </footer>
+
+    <div id="helpModal" class="modal" aria-hidden="true" role="dialog">
+      <div class="modal-backdrop" id="helpBackdrop"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>How to Get Accurate Results</h3>
+          <button id="closeHelp" class="btn btn-secondary">Close</button>
+        </div>
+        <div class="modal-body">
+          <ul>
+            <li>Record at 120–240 fps for better temporal resolution</li>
+            <li>Use a tripod and keep the camera steady</li>
+            <li>Position camera perpendicular to the court plane</li>
+            <li>Ensure all four court corners are visible in frame</li>
+            <li>Use bright lighting and fast shutter speed</li>
+            <li>Calibrate carefully by clicking exact corner positions</li>
+            <li>Use manual mode if automatic detection struggles</li>
+            <li>Optional: Load a YOLO model for better tracking in busy scenes</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.18.0/dist/ort.min.js"></script>
+    <script async src="https://docs.opencv.org/4.x/opencv.js" onload="onOpenCvReady()"></script>
+    <script defer src="app.js"></script>
+  </body>
+</html>

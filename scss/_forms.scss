@@ -1,0 +1,55 @@
+// Form Controls
+@use 'variables' as *;
+
+.upload-row,
+.calibration-controls,
+.analyze-controls,
+.export-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: spacing(3);
+  margin: spacing(4) 0;
+  
+  @media (max-width: breakpoint(md)) {
+    flex-direction: column;
+  }
+}
+
+label {
+  display: inline-flex;
+  align-items: center;
+  gap: spacing(2);
+  font-size: font-size(sm);
+  color: color(gray-700);
+  cursor: pointer;
+}
+
+input[type="number"],
+input[type="text"],
+select {
+  padding: spacing(2) spacing(3);
+  border: 1px solid color(gray-300);
+  border-radius: radius(md);
+  font-size: font-size(sm);
+  background: color(white);
+  color: color(gray-900);
+  transition: border-color $transition-base;
+  
+  &:focus {
+    outline: none;
+    border-color: color(blue-500);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  @media (max-width: breakpoint(md)) {
+    width: 100%;
+  }
+}
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: color(blue-600);
+}
+

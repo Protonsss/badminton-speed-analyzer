@@ -1,0 +1,17 @@
+// Layout Grid
+@use 'variables' as *;
+
+.main-grid {
+  display: grid;
+  gap: spacing(5);
+  grid-template-columns: 1fr;
+  
+  @media (min-width: breakpoint(md)) {
+    grid-template-columns: repeat(2, 1fr);
+    
+    > section:last-child {
+      grid-column: span 2;
+    }
+  }
+}
+

@@ -1,0 +1,16 @@
+// Main SCSS Entry Point
+// Import all partials in order
+
+@use 'variables';
+@use 'base';
+@use 'header';
+@use 'hero';
+@use 'layout';
+@use 'card';
+@use 'buttons';
+@use 'forms';
+@use 'media';
+@use 'results';
+@use 'modal';
+@use 'footer';
+

@@ -1,0 +1,14 @@
+{
+  "name": "badminton-smash-speed-analyzer",
+  "version": "1.0.0",
+  "description": "Measure badminton smash speed using computer vision",
+  "scripts": {
+    "scss": "sass scss/main.scss styles.css",
+    "scss:watch": "sass --watch scss/main.scss:styles.css",
+    "scss:prod": "sass scss/main.scss styles.css --style=compressed"
+  },
+  "devDependencies": {
+    "sass": "^1.69.0"
+  }
+}
+

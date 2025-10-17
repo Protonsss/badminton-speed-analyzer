@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#64d2ff"/>
+      <stop offset="100%" stop-color="#5ac8fa"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#34c759"/>
+      <stop offset="100%" stop-color="#2db24f"/>
+    </linearGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <rect width="256" height="256" rx="28" fill="#0b0d10"/>
+
+  <!-- Stylized shuttlecock -->
+  <g transform="translate(46,36)" filter="url(#shadow)">
+    <polygon points="40,20 76,8 132,22 118,52 62,56" fill="url(#g1)"/>
+    <polygon points="62,56 118,52 104,112 54,120" fill="#0f141a" stroke="#1e252c" stroke-width="2"/>
+    <g fill="#e9f1f7">
+      <rect x="58" y="64" width="10" height="44" rx="3"/>
+      <rect x="76" y="62" width="10" height="46" rx="3"/>
+      <rect x="94" y="60" width="10" height="48" rx="3"/>
+    </g>
+  </g>
+
+  <!-- Speed bolt -->
+  <path d="M168 152 L134 152 L170 88 L170 120 L202 120 Z" fill="url(#g2)" filter="url(#shadow)"/>
+
+  <!-- Title mark -->
+  <circle cx="206" cy="50" r="6" fill="#64d2ff"/>
+</svg>
+
+

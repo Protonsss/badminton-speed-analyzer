@@ -1,0 +1,63 @@
+// Modal Component
+@use 'variables' as *;
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: spacing(5);
+  
+  &[aria-hidden="false"] {
+    display: flex;
+  }
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  background: color(white);
+  border-radius: radius(lg);
+  box-shadow: shadow(lg);
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: spacing(5);
+  border-bottom: 1px solid color(gray-200);
+  
+  h3 {
+    font-size: font-size(lg);
+    font-weight: font-weight(semibold);
+    margin: 0;
+  }
+}
+
+.modal-body {
+  padding: spacing(5);
+  
+  ul {
+    padding-left: spacing(5);
+    
+    li {
+      margin-bottom: spacing(2);
+      color: color(gray-700);
+      line-height: 1.7;
+    }
+  }
+}
+

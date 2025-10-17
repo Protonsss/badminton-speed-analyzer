@@ -1,0 +1,23 @@
+// Video & Canvas
+@use 'variables' as *;
+
+video,
+canvas {
+  width: 100%;
+  border-radius: radius(lg);
+  background: color(black);
+  margin-bottom: spacing(3);
+  box-shadow: shadow(sm);
+}
+
+video {
+  max-height: 400px;
+  object-fit: contain;
+}
+
+.tips {
+  font-size: font-size(sm);
+  color: color(gray-500);
+  margin-top: spacing(2);
+}
+

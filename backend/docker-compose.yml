@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # API Server
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: badminton_analyzer_api
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=False
+      - LOG_LEVEL=INFO
+      - HOST=0.0.0.0
+      - PORT=8000
+      - WORKERS=4
+      - YOLO_DEVICE=cpu  # Change to cuda if GPU available
+    volumes:
+      - ./logs:/app/logs
+      - uploads:/tmp/badminton_analyzer/uploads
+      - results:/tmp/badminton_analyzer/results
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/api/v1/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 8G
+        reservations:
+          cpus: '2'
+          memory: 4G
+
+  # Development API (optional)
+  api-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: badminton_analyzer_api_dev
+    ports:
+      - "8001:8000"
+    environment:
+      - DEBUG=True
+      - LOG_LEVEL=DEBUG
+      - RELOAD=True
+    volumes:
+      - ./app:/app/app
+      - ./logs:/app/logs
+      - uploads:/tmp/badminton_analyzer/uploads
+      - results:/tmp/badminton_analyzer/results
+    profiles:
+      - dev
+
+volumes:
+  uploads:
+  results:
+

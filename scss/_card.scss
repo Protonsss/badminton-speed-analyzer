@@ -1,0 +1,28 @@
+// Card Component
+@use 'variables' as *;
+
+.card {
+  background: color(white);
+  padding: spacing(6);
+  border-radius: radius(lg);
+  box-shadow: shadow(sm);
+  transition: box-shadow $transition-base;
+  
+  &:hover {
+    box-shadow: shadow(md);
+  }
+  
+  h2 {
+    font-size: font-size(xl);
+    font-weight: font-weight(semibold);
+    margin-bottom: spacing(4);
+    color: color(gray-900);
+  }
+  
+  p {
+    color: color(gray-600);
+    margin-bottom: spacing(4);
+    line-height: 1.7;
+  }
+}
+

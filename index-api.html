@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smash Speed | Badminton Analyzer</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <img src="assets/logo.svg" alt="Logo" class="logo">
+      <h1 class="brand">Smash Speed</h1>
+      <button id="helpBtn" class="help-btn" aria-label="Help">?</button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="container">
+      <!-- Hero Section -->
+      <section class="hero" id="hero">
+        <h2 class="hero-title">Smash speed</h2>
+        <p class="hero-subtitle">Drop in a video. We'll calculate the speed.</p>
+        
+        <!-- Upload Card -->
+        <div class="card upload-card">
+          <div class="card-header">
+            <input type="file" id="fileInput" accept="video/*" class="file-input" aria-label="Choose video file">
+            <label for="fileInput" class="btn btn-primary">Choose Video</label>
+            <button id="demoBtn" class="btn btn-ghost">Load Demo</button>
+          </div>
+
+          <div class="video-container">
+            <video id="video" class="video-element" controls></video>
+            <canvas id="canvas" class="canvas-element"></canvas>
+          </div>
+
+          <div class="panel-actions">
+            <button id="openAnalyzer" class="btn btn-primary">Open Analyzer</button>
+          </div>
+        </div>
+
+        <!-- How To Link -->
+        <div class="footer-link">
+          <a href="#guide" id="linkGuide">How to film for best accuracy →</a>
+        </div>
+      </section>
+
+      <!-- Advanced Analyzer (Hidden by default) -->
+      <section class="advanced hidden" id="advanced">
+        <div class="card">
+          <h3 class="card-title">Court Calibration</h3>
+          <div class="form-group">
+            <label for="courtType">Court Type</label>
+            <select id="courtType" class="form-select">
+              <option value="singles">Singles Court (13.4m × 5.18m)</option>
+              <option value="doubles">Doubles Court (13.4m × 6.10m)</option>
+            </select>
+          </div>
+          <div class="btn-group">
+            <button id="startCalib" class="btn btn-primary" disabled>Start Calibration</button>
+            <button id="resetCalib" class="btn btn-secondary" disabled>Reset</button>
+          </div>
+          <p class="hint">Click 4 corners of the court: top-left → top-right → bottom-right → bottom-left</p>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">Analysis</h3>
+          <button id="analyzeBtn" class="btn btn-primary btn-large" disabled>Analyze Video</button>
+        </div>
+
+        <div class="card results-card">
+          <h3 class="card-title">Results</h3>
+          <div class="results-grid">
+            <div class="result-item">
+              <span class="result-label">Peak Speed:</span>
+              <span id="peakSpeed" class="result-value">—</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Average Speed:</span>
+              <span id="avgSpeed" class="result-value">—</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Initial Speed (fit):</span>
+              <span id="initSpeed" class="result-value">—</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Video FPS:</span>
+              <span id="fps" class="result-value">—</span>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <canvas id="chart"></canvas>
+          </div>
+
+          <div class="btn-group">
+            <button id="exportCSV" class="btn btn-secondary" disabled>Export CSV</button>
+            <button id="exportPNG" class="btn btn-secondary" disabled>Export Chart PNG</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Guide Section -->
+      <section class="guide hidden" id="guide">
+        <div class="card">
+          <h3 class="card-title">How to Film for Best Accuracy</h3>
+          <ul class="guide-list">
+            <li><strong>Camera Position:</strong> Place camera perpendicular to the court side, elevated 2-3 meters</li>
+            <li><strong>Frame Rate:</strong> Use 60fps minimum, 120fps or 240fps for best results</li>
+            <li><strong>Lighting:</strong> Ensure even lighting, avoid shadows on court</li>
+            <li><strong>Court Visibility:</strong> All 4 corners of the court must be clearly visible</li>
+            <li><strong>Focus:</strong> Keep camera steady, use a tripod if possible</li>
+            <li><strong>Shuttlecock:</strong> Use a white shuttle for best contrast</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Help Modal -->
+  <div id="helpModal" class="modal" role="dialog" aria-hidden="true" aria-labelledby="helpTitle">
+    <div id="helpBackdrop" class="modal-backdrop"></div>
+    <div class="modal-content" role="document">
+      <div class="modal-header">
+        <h2 id="helpTitle">How It Works</h2>
+        <button id="closeHelp" class="modal-close" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3>Calibration</h3>
+        <p>Mark 4 corners of the court to map video pixels to real-world meters using homography transformation.</p>
+        
+        <h3>Detection & Tracking</h3>
+        <p>PyTorch YOLOv8 detects the shuttlecock, then optical flow + Kalman filtering track it frame-by-frame.</p>
+        
+        <h3>Speed Calculation</h3>
+        <p>Compute speeds from metric positions. Savitzky-Golay smoothing removes noise. Physics-based quadratic drag fit estimates initial smash speed.</p>
+        
+        <h3>Accuracy</h3>
+        <p>With proper filming (60+ fps, good lighting, perpendicular angle), accuracy is typically within 3-5 km/h.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+  <script src="app-api.js"></script>
+</body>
+</html>
+

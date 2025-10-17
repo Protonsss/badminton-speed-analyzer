@@ -1,0 +1,10 @@
+// Footer Component
+@use 'variables' as *;
+
+.site-footer {
+  text-align: center;
+  padding: spacing(10) 0 spacing(5);
+  color: color(gray-500);
+  font-size: font-size(sm);
+}
+

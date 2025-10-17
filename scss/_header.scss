@@ -1,0 +1,29 @@
+// Header Component
+@use 'variables' as *;
+
+.site-header {
+  background: color(white);
+  padding: spacing(5);
+  margin-bottom: spacing(8);
+  border-radius: radius(lg);
+  box-shadow: shadow(sm);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: spacing(3);
+  
+  h1 {
+    font-size: font-size(xl);
+    font-weight: font-weight(semibold);
+    margin: 0;
+  }
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  border-radius: radius(lg);
+}
+
