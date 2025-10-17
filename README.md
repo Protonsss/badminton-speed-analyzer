@@ -203,7 +203,23 @@ not as accurate as professional systems but its free and works with just your ph
 
 ## license
 
-MIT. do whatever you want with it.
+**Custom Restrictive License - Personal Use Only**
+
+this project is licensed for personal and non-commercial use only. you can:
+- use it for yourself
+- learn from the code
+- modify it for personal projects
+- share it with friends (with credit)
+
+you CANNOT:
+- sell it or use it commercially
+- use it in a paid service/product
+- claim you made it
+- remove my name from it
+
+if you wanna use this commercially, dm me and we can work something out.
+
+see LICENSE file for full details.
 
 ---
 
